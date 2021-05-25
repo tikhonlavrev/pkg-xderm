@@ -1,10 +1,10 @@
-host=35.185.190.111
+host=35.xx.xxx.xx
 port=443
-pudp=7200
-user=adistb
-pass=adistb
-sni=line.me
+pudp=7300
+user=xxxxx
+pass=xxxxx
+sni=bug.com
 vmess://xxxxxxx
-trojan://08cd8274-71a6-4188-b435-7e61a7fa9f70@pay.line.me.bug.netterz.ga:6443
-mode=2
+trojan://xxxxxx
+mode=0
 

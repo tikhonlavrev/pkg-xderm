@@ -12,13 +12,13 @@ define Package/$(PKG_NAME)
   SECTION:=net
   CATEGORY:=Network
   MAINTAINER:=Adi Subagja <adisubagjaa@gmail.com>
-  TITLE:=Captive portal with vouchers.
+  TITLE:=Hanya xderm.
   DEPENDS:=+php7 +php7-cgi +php7-mod-session +php7-mod-gmp +php7-mod-gettext +php7-mod-iconv +php7-mod-json +php7-mod-pcntl
   PKGARCH:=all
 endef
 
 define Package/$(PKG_NAME)/description
-	Captive Portal for routers that want to share their Internet connection via vouchers.
+	Xderm-Mini Inject Di STB.
 endef
 
 define Build/Compile
