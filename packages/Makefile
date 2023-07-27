@@ -11,9 +11,9 @@ define Package/$(PKG_NAME)
   SUBMENU:=Captive Portals
   SECTION:=net
   CATEGORY:=Network
-  MAINTAINER:=Adi Subagja <adisubagjaa@gmail.com>
-  TITLE:=Hanya xderm.
-  DEPENDS:=+php7 +php7-cgi +php7-mod-session +php7-mod-gmp +php7-mod-gettext +php7-mod-iconv +php7-mod-json +php7-mod-pcntl
+  MAINTAINER:=NCWRT <sayhanzp321@gmail.com>
+  TITLE:=Xderm PHP8.
+  DEPENDS:=+php8 +php8-cgi +php8-mod-session +php8-mod-gmp +php8-mod-gettext +php8-mod-iconv +php8-mod-json +php8-mod-pcntl
   PKGARCH:=all
 endef
 
