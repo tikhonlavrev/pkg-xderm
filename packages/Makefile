@@ -11,9 +11,9 @@ define Package/$(PKG_NAME)
   SUBMENU:=Captive Portals
   SECTION:=net
   CATEGORY:=Network
-  MAINTAINER:=NCWRT <sayhanzp321@gmail.com>
+  MAINTAINER:=Forked by NCWRT <sayhanzp321@gmail.com>
   TITLE:=Xderm PHP8.
-  DEPENDS:=+php8 +php8-cgi +php8-mod-session +php8-mod-gmp +php8-mod-gettext +php8-mod-iconv +php8-mod-json +php8-mod-pcntl
+  DEPENDS:=+php8 +php8-cgi +php8-mod-session +php8-mod-gmp +php8-mod-gettext +php8-mod-iconv +php8-mod-pcntl
   PKGARCH:=all
 endef
 
