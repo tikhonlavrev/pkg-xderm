@@ -301,7 +301,7 @@ path=$(grep vmess: config.txt 2>/dev/null|awk -F "//" '{print $2}'|base64 -d 2>/
 path=$(echo $path|sed 's/\\u003d/=/g'|sed 's/\\u0026/\&/g')
 tls=$(grep vmess: config.txt 2>/dev/null|awk -F "//" '{print $2}'|base64 -d 2>/dev/null|sed ':a;N;$!ba;s/\n/ /g'|awk -F 'tls":' '{print $2}'|awk -F ',' '{print $1}'|sed -e 's/://g' -e 's/ //g' -e 's/"//g' -e 's/}//g')
 if [ -f $tls ]; then
-tls=$(grep vmess: /www/xderm/config.txt 2>/dev/null|awk -F "//" '{print $2}'|base64 -d 2>/dev/null|grep tls|sed -e 's/:/=/g' -e 's/ //g' -e 's/"//g' -e 's/}//g'|awk -F "=" '{print $1}')
+tls=$(grep vmess: /www/config.txt 2>/dev/null|awk -F "//" '{print $2}'|base64 -d 2>/dev/null|grep tls|sed -e 's/:/=/g' -e 's/ //g' -e 's/"//g' -e 's/}//g'|awk -F "=" '{print $1}')
  if [ ! -f $tls ]; then
   if [ $tls != "tls" ]; then
   tls=""
@@ -629,9 +629,9 @@ echo "Closed!" >> screenlog.0;cp screenlog.0 log/log.txt 2>/dev/null;exit
 host=$(grep host= config.txt|awk -F "=" '{print $2}')
 echo -ne "{$(date +%M:%S)} Menjalankan Inject " >> screenlog.0
 killall -q openssl timeou;rm -rf /tmp/timeou
-injj=$(cat /www/xderm/config/stun 2>/dev/null|awk "NR==1")
+injj=$(cat /www/config/stun 2>/dev/null|awk "NR==1")
  if [ -f $injj ]; then
-echo yes > /www/xderm/config/stun;injj=yes
+echo yes > /www/config/stun;injj=yes
  fi
   if [ $injj != "no" ]; then
 injek;echo "[stunnel]" >> screenlog.0
@@ -648,7 +648,7 @@ echo "  Port UDPgw: $pudp" >> screenlog.0
 echo "##############################################" >> screenlog.0
 echo -e "{$(date +%M:%S)} Menjalankan SSH (di latarbelakang)...." >> screenlog.0
  if [ $injj != "no" ]; then
-rm -rf /root/.ssh/known_hosts* /www/xderm/log/screenlog.0;cd /www/xderm/log 2>/dev/null
+rm -rf /root/.ssh/known_hosts* /www/log/screenlog.0;cd /www/log 2>/dev/null
 screen -dmS login sshpass -p "$pass" ssh -oTCPKeepAlive=yes -oServerAliveInterval=180 -oServerAliveCountMax=2 -oStrictHostKeyChecking=no -CND 127.0.0.1:1080 -p 8780 $user@localhost
 n=0;echo -ne "{$(date +%M:%S)} Menguji Koneksi... " >> ../screenlog.0
 /etc/init.d/dnsmasq restart 2>/dev/null
@@ -672,7 +672,7 @@ flushx;echo -e "{$(date +%M:%S)} Berhenti." >> screenlog.0
 cp screenlog.0 log/log.txt 2>/dev/null;rm -rf log/screenlog.0;exit
  fi
 else
-rm -rf /www/xderm/log/screenlog.0;cd /www/xderm/log 2>/dev/null
+rm -rf /www/log/screenlog.0;cd /www/log 2>/dev/null
 screen -L -dmS xderm sshpass -p "$pass" ssh -oTCPKeepAlive=yes -oServerAliveInterval=180 -oServerAliveCountMax=2 -oStrictHostKeyChecking=no -CND 127.0.0.1:1080 -p $port $user@$host -o "Proxycommand=corkscrew 127.0.0.1 8789 %h %p"
 sleep 2;n=0;xxx="lanjut";echo -ne "{$(date +%M:%S)} Menguji Koneksi... " >> ../screenlog.0
 while [ $n != 5 ]; do
@@ -750,7 +750,7 @@ while true; do
 r=\$(curl -m75 google.com -w \"%{http_code}\" --proxy socks5://127.0.0.1:1080 -s -o /dev/null|head -c2);sleep 2
   if [ \$r != 30 ]; then
 killall -q sshpass;rm -rf /root/.ssh/known_hosts*
- if [ $(cat /www/xderm/config/stun) != "no" ]; then
+ if [ $(cat /www/config/stun) != "no" ]; then
 screen -dmS xdermr sshpass -p \"$pass\" ssh -oTCPKeepAlive=yes -oServerAliveInterval=180 -oServerAliveCountMax=2 -oStrictHostKeyChecking=no -CND 127.0.0.1:1080 -p 8780 $user@localhost;sleep 10
 else
 screen -dmS xdermr sshpass -p \"$pass\" ssh -oTCPKeepAlive=yes -oServerAliveInterval=180 -oServerAliveCountMax=2 -oStrictHostKeyChecking=no -CND 127.0.0.1:1080 -p $port $user@$host -o \"Proxycommand=corkscrew 127.0.0.1 8788 %h %p\";sleep 10
@@ -761,17 +761,17 @@ sleep 1
 done" > /tmp/autorekonek;cd /tmp;chmod +x autorekonek
 screen -dmS auto ./autorekonek;sleep 2;rm -rf autorekonek
 fi
-cd /www/xderm/ 2>/dev/null
+cd /www/ 2>/dev/null
 echo -e "{$(date +%M:%S)} Selesai." >> screenlog.0;cp screenlog.0 log/log.txt;cupdate;exit
 }
  enable () {
  if [ ! -f $(cat /etc/rc.local|grep exit|awk '{print $1}' 2>/dev/null) ]; then
   if [ -f $(cat /etc/rc.local|grep xderm|grep button1|awk '{print $1}' 2>/dev/null) ]; then
-sed -i "s|exit 0|echo Start > /www/xderm/log/st;curl -s http://localhost/xderm/index.php -d 'button1=Start'\nexit 0|g" /etc/rc.local
+sed -i "s|exit 0|echo Start > /www/log/st;curl -s http://localhost/index.php -d 'button1=Start'\nexit 0|g" /etc/rc.local
 chmod +x /etc/rc.local
   fi
 else
-echo -e "#!/bin/bash\necho Start > /www/xderm/log/st;curl -s http://localhost/xderm/index.php -d 'button1=Start'\nexit 0" > /etc/rc.local
+echo -e "#!/bin/bash\necho Start > /www/log/st;curl -s http://localhost/index.php -d 'button1=Start'\nexit 0" > /etc/rc.local
  fi
 sed -i ':a;N;$!ba;s/\n\n/\n/g' /etc/rc.local
 touch /etc/crontabs/root
@@ -780,7 +780,7 @@ echo > /etc/crontabs/root
  fi
 }
  disable () {
-sed -i "s|echo Start > /www/xderm/log/st;curl -s http://localhost/xderm/index.php -d 'button1=Start'||g" /etc/rc.local
+sed -i "s|echo Start > /www/log/st;curl -s http://localhost/index.php -d 'button1=Start'||g" /etc/rc.local
 sed -i ':a;N;$!ba;s/\n\n/\n/g' /etc/rc.local
 touch /etc/crontabs/root
  if [ ! -f $(cat /etc/crontabs/root|grep xderm|awk '{print $2}'|awk "NR==1") ]; then
